@@ -9,17 +9,20 @@ This challenge asks me to create CRUD routes with TDD.
     - [GET `/artists`](#get-artists)
     - [POST `/albums`](#post-albums)
     - [POST `/artists`](#post-artists)
-  - [Diagram](#diagram)
+  - [Diagrams](#diagrams)
     - [POST `/artists`](#post-artists-1)
+    - [GET `/artists/:id`](#get-artistsid)
 
 ## Route Signature
 
-| Method | Path     | Query | Body                           | Response          |
-| ------ | -------- | ----- | ------------------------------ | ----------------- |
-| GET    | /albums  | -     | -                              | A list of records |
-| GET    | /artists | -     | -                              | A list of artists |
-| POST   | /albums  | -     | title, release_year, artist_id | -                 |
-| POST   | /artists | -     | name, genre                    | -                 |
+| Method | Path         | Query | Body                           | Response        |
+| ------ | ------------ | ----- | ------------------------------ | --------------- |
+| GET    | /albums      | -     | -                              | albums_all.erb  |
+| GET    | /artists     | -     | -                              | artists_all.erb |
+| GET    | /albums/:id  | -     | -                              | albums_one.erb  |
+| GET    | /artists/:id | -     | -                              | artists_one.erb |
+| POST   | /albums      | -     | title, release_year, artist_id | -               |
+| POST   | /artists     | -     | name, genre                    | -               |
 
 ## Examples
 
@@ -81,8 +84,12 @@ GET /artists
 Pixies, ABBA, Taylor Swift, Nina Simone, Wild nothing
 ```
 
-## Diagram
+## Diagrams
 
 ### POST `/artists`
 
 ![post-artists-diagram](assets/diagram.png)
+
+### GET `/artists/:id`
+
+![get-artists-id-diagram](assets/diagram2.png)
