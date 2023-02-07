@@ -20,11 +20,13 @@ describe Application do
 
   context "GET /albums" do
     it "returns 200 OK with a list of album names" do
-      expected_ans = "Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring"
       res = get("/albums")
 
-      expect(res.status).to eq 200
-      expect(res.body).to eq(expected_ans)
+      expect(res.body).to include("<h1>Albums</h1>")
+      expect(res.body).to include("<div>")
+      expect(res.body).to include("Doolittle")
+      expect(res.body).to include("Here Comes the Sun")
+      expect(res.body).to include("Ring Ring")
     end
   end
 
@@ -41,7 +43,53 @@ describe Application do
       res = get("/artists")
 
       expect(res.status).to eq 200
-      expect(res.body).to eq "Pixies, ABBA, Taylor Swift, Nina Simone"
+      expect(res.body).to include "<h1>Artists</h1>"
+      expect(res.body).to include "<div>"
+      expect(res.body).to include "Pixies"
+      expect(res.body).to include "Taylor Swift"
+      expect(res.body).to include "Nina Simone"
+    end
+  end
+
+  context "GET /artists/:id" do
+    it "returns 200 OK with the details of Pixies (id: 1)" do
+      res = get("/artists/1")
+
+      expect(res.body).to include "<h1>"
+      expect(res.body).to include "<p>"
+      expect(res.body).to include "Pixies"
+      expect(res.body).to include "Rock"
+    end
+
+    it "returns 200 OK with the details of Taylor Swift (id: 3)" do
+      res = get("/artists/3")
+
+      expect(res.body).to include "<h1>"
+      expect(res.body).to include "<p>"
+      expect(res.body).to include "Taylor Swift"
+      expect(res.body).to include "Pop"
+    end
+  end
+
+  context "GET /albums/:id" do
+    it "returns 200 OK with the details of Doolittle (id: 1)" do
+      res = get("albums/1")
+
+      expect(res.body).to include("<h1>")
+      expect(res.body).to include("<p>")
+      expect(res.body).to include("Doolittle")
+      expect(res.body).to include("Release year: 1989")
+      expect(res.body).to include("Artist: Pixies")
+    end
+
+    it "returns 200 OK with the details of Surfer Rosa (id: 2)" do
+      res = get("albums/2")
+
+      expect(res.body).to include("<h1>")
+      expect(res.body).to include("<p>")
+      expect(res.body).to include("Surfer Rosa")
+      expect(res.body).to include("Release year: 1988")
+      expect(res.body).to include("Artist: Pixies")
     end
   end
 
