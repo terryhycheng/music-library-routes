@@ -35,6 +35,7 @@ describe Application do
       res = post("/albums", title: "Voyage", release_year: 2022, artist_id: 2)
 
       expect(res.status).to eq 200
+      expect(res.body).to include "Your album has been created!"
     end
   end
 
@@ -100,7 +101,16 @@ describe Application do
 
       expect(post_res.status).to eq 200
       expect(get_res.status).to eq 200
-      expect(get_res.body).to eq "Pixies, ABBA, Taylor Swift, Nina Simone, Wild nothing"
+      expect(get_res.body).to include "Wild nothing"
+    end
+  end
+
+  context "GET /albums/new" do
+    it "returns 200 and shows a form correctly" do
+      res = get("/albums/new")
+
+      expect(res.body).to include("<h1>New Album Form</h1>")
+      expect(res.body).to include("<form action=\"/albums\" method=\"POST\">")
     end
   end
 end

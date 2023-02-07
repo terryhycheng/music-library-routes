@@ -1,0 +1,14 @@
+<html>
+  <body>
+    <h1>New Album Form</h1>
+    <form action="/albums" method="POST">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" />
+      <label for="release_year">Year:</label>
+      <input type="number" id="release_year" name="release_year" min="1900" max="2099" step="1" value="2023" />
+      <label for="artist_id">Artist ID:</label>
+      <input type="number" id="artist_id" name="artist_id" />
+      <input type="submit" value="Submit the form"/>
+    </form>
+  </body>
+</html>

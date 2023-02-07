@@ -34,6 +34,10 @@ class Application < Sinatra::Base
     return erb(:artist_one)
   end
 
+  get "/albums/new" do
+    return erb(:album_form)
+  end
+
   get "/albums/:id" do
     album_repo = AlbumRepository.new
     artist_repo = ArtistRepository.new
@@ -44,6 +48,11 @@ class Application < Sinatra::Base
   end
 
   post "/albums" do
+    if invalid_request_params?
+      status 400
+      return ""
+    end
+
     album = Album.new
     album.title = params[:title]
     album.release_year = params[:release_year]
@@ -51,6 +60,9 @@ class Application < Sinatra::Base
 
     repo = AlbumRepository.new
     repo.create(album)
+    @type = "album"
+
+    return erb(:created)
   end
 
   post "/artists" do
@@ -60,5 +72,16 @@ class Application < Sinatra::Base
 
     repo = ArtistRepository.new
     repo.create(artist)
+  end
+
+  private
+
+  def invalid_request_params?
+    title = params[:title]
+    release_year = params[:release_year]
+    artist_id = params[:artist_id]
+
+    return true if title == nil || release_year == nil || artist_id == nil
+    return true if title == "" || release_year == "" || artist_id == ""
   end
 end
