@@ -1,0 +1,13 @@
+<html>
+  <body>
+    <h1><%= @title %></h1>
+    <form action="<%= @submit_to %>" method="POST">
+      <% @fields.each do |field| %>
+        <label for="<%= field[:name] %>"><%= field[:name].capitalize %>:</label>
+        <input type="<%= field[:type] %>" id="<%= field[:name] %>" name="<%= field[:name] %>" />
+      <% end %>
+      <input type="submit" value="Submit the form"/>
+    </form>
+    <a href="<%= @submit_to %>">Going back</a>
+  </body>
+</html>

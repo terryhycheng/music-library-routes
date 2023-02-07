@@ -39,6 +39,15 @@ describe Application do
     end
   end
 
+  context "POST /artists" do
+    it "returns 200 OK" do
+      res = post("/artists", name: "Shawn Mendes", genre: "Pop")
+
+      expect(res.status).to eq 200
+      expect(res.body).to include "Your artist has been created!"
+    end
+  end
+
   context "GET /artists" do
     it "returns 200 OK with a list of artist's names" do
       res = get("/artists")
@@ -111,6 +120,15 @@ describe Application do
 
       expect(res.body).to include("<h1>New Album Form</h1>")
       expect(res.body).to include("<form action=\"/albums\" method=\"POST\">")
+    end
+  end
+
+  context "GET /artists/new" do
+    it "returns 200 and shows a form correctly" do
+      res = get("/artists/new")
+
+      expect(res.body).to include("<h1>New Artist Form</h1>")
+      expect(res.body).to include("<form action=\"/artists\" method=\"POST\">")
     end
   end
 end

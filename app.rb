@@ -27,15 +27,25 @@ class Application < Sinatra::Base
     return erb(:artist_all)
   end
 
+  get "/artists/new" do
+    @title = "New Artist Form"
+    @submit_to = "/artists"
+    @fields = [{ name: "name", type: "text" }, { name: "genre", type: "text" }]
+    return erb(:form)
+  end
+
+  get "/albums/new" do
+    @title = "New Album Form"
+    @submit_to = "/albums"
+    @fields = [{ name: "title", type: "text" }, { name: "year", type: "text" }, { name: "artist_id", type: "number" }]
+    return erb(:form)
+  end
+
   get "/artists/:id" do
     artist_id = params[:id]
     repo = ArtistRepository.new
     @artist = repo.find(artist_id)
     return erb(:artist_one)
-  end
-
-  get "/albums/new" do
-    return erb(:album_form)
   end
 
   get "/albums/:id" do
@@ -48,7 +58,7 @@ class Application < Sinatra::Base
   end
 
   post "/albums" do
-    if invalid_request_params?
+    if invalid_album_request_params?
       status 400
       return ""
     end
@@ -60,23 +70,39 @@ class Application < Sinatra::Base
 
     repo = AlbumRepository.new
     repo.create(album)
-    @type = "album"
 
+    @type = "album"
     return erb(:created)
   end
 
   post "/artists" do
+    if invalid_artist_request_params?
+      status 400
+      return ""
+    end
+
     artist = Artist.new
     artist.name = params[:name]
     artist.genre = params[:genre]
 
     repo = ArtistRepository.new
     repo.create(artist)
+
+    @type = "artist"
+    return erb(:created)
   end
 
   private
 
-  def invalid_request_params?
+  def invalid_artist_request_params?
+    name = params[:name]
+    genre = params[:genre]
+
+    return true if name == nil || genre == nil
+    return true if name == "" || genre == ""
+  end
+
+  def invalid_album_request_params?
     title = params[:title]
     release_year = params[:release_year]
     artist_id = params[:artist_id]
