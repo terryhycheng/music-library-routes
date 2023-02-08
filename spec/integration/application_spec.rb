@@ -18,6 +18,17 @@ describe Application do
     connection.exec(artists_seeds_sql)
   end
 
+  context "GET /" do
+    it "returns 200 OK with correct contents" do
+      res = get("/")
+
+      expect(res.body).to include("<h1>Welcome to Terry's Music Library!</h1>")
+      expect(res.body).to include("<h2>What do you want to browse?</h2>")
+      expect(res.body).to include("<a href=\"/albums\">")
+      expect(res.body).to include("<a href=\"/artists\">")
+    end
+  end
+
   context "GET /albums" do
     it "returns 200 OK with a list of album names" do
       res = get("/albums")
